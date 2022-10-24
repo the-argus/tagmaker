@@ -1,5 +1,6 @@
 result
 builddir/
 .cache/
+.direnv/
 
 compile_commands.json
