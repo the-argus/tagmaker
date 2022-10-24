@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 
 static void button_callback(GtkWidget *widget, gpointer data) {
-  g_print("Hello World");
+  g_print("button pressed");
 }
 
 static void activate(GtkApplication *app, gpointer user_data) {
@@ -20,13 +20,19 @@ static void activate(GtkApplication *app, gpointer user_data) {
   gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
   gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
 
+  // actually attach the box, which will contain the button
+  gtk_window_set_child(GTK_WINDOW(window), box);
+
   // create button
-  button = gtk_button_new_with_label("testing button fr!");
+  button = gtk_button_new_with_label("testing button frfr!");
 
   // connect signals
   g_signal_connect(button, "clicked", G_CALLBACK(button_callback), NULL);
   g_signal_connect_swapped(button, "clicked", G_CALLBACK(gtk_window_destroy),
                            window);
+
+  // button is inside the box
+  gtk_box_append(GTK_BOX(box), button);
 
   gtk_widget_show(window);
 }
@@ -35,7 +41,7 @@ int main(int argc, char **argv) {
   GtkApplication *app;
   int status;
 
-  app = gtk_application_new("Tagmaker", G_APPLICATION_DEFAULT_FLAGS);
+  app = gtk_application_new("me.argus.Tagmaker", G_APPLICATION_DEFAULT_FLAGS);
   g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
   status = g_application_run(G_APPLICATION(app), argc, argv);
   g_object_unref(app);
