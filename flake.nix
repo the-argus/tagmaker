@@ -16,11 +16,14 @@
       tagmaker = pkgs.${system}.callPackage ./. {};
       default = tagmaker;
     });
-
+    
+    # this includes packages i use in my development environment
+    # (namely LSPs) but are not required at build or runtime
     devShell = genSystems (system:
       pkgs.${system}.mkShell {
         packages = with pkgs.${system}; [
-          clang
+          clangStdenv
+          libclang
           bear
           gtk4
 
